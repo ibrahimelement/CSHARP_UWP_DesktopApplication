@@ -1,0 +1,261 @@
+﻿<Page
+    x:Class="Bermuda.Views.TaskOverview"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Bermuda.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:model="using:Bermuda.Models" xmlns:mucx="using:Microsoft.UI.Xaml.Controls"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Page.Resources>
+        
+        <LinearGradientBrush x:Key="BaseBrush" StartPoint="0.5,0" EndPoint="0.5,1">
+            <GradientStop Color="#105b35" Offset="0.0" />
+            <GradientStop Color="#000000" Offset="1.0" />
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="ItemContainerBrush" StartPoint="0.5,0" EndPoint="0.5,1">
+            <GradientStop Color="#105b35" Offset="0.0" />
+            <GradientStop Color="#000000" Offset="1.0" />
+        </LinearGradientBrush>
+
+    </Page.Resources>
+
+    <Grid Background="Black">
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="8*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <!-- Left-side control (List view and command bar) -->
+        <Grid Background="{StaticResource BaseBrush}"
+              BorderBrush="Black"
+              Grid.RowSpan="2"
+              BorderThickness="2">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="3*"/>
+            </Grid.RowDefinitions>
+
+            <CommandBar x:Name="Add_And_Remove_CommandBar"
+                        OverflowButtonVisibility="Collapsed"
+                        Margin="3,3,3,3"
+                        BorderBrush="Black"
+                        HorizontalAlignment="Center"
+                        BorderThickness="2">
+
+                <AppBarButton Icon="Add" Click="AppBarButton_Add_Click"/>
+                <AppBarButton Icon="Remove" Click="AppBarButton_Remove_Click"/>
+            </CommandBar>
+
+            <ListView 
+                    x:Name="TaskGroupList"
+                    Height="Auto"
+                    ItemsSource="{x:Bind TaskView.TaskGroups}"
+                    IsItemClickEnabled="True"
+                    ItemClick="TaskGroupList_ItemClick"
+                    Margin="4,4,4,4"
+                    Grid.Row="1">
+
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
+                        <Setter Property="Margin" Value="0,5,0,0"/>
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.ItemTemplate>
+                    <DataTemplate x:Name="ProxyGroupTemplate"
+                            x:DataType="model:TaskGroup">
+                        <Grid Margin="0,0,0,0">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100"/>
+                            </Grid.ColumnDefinitions>
+                            
+                            <TextBlock VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            Text="{x:Bind groupName}"/>
+                            
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+                <ListViewItem Content="Hello"></ListViewItem>
+            </ListView>
+        </Grid>
+        <!-- END: Left-side control -->
+
+        <!-- Right-side task task list -->
+        <GridView Grid.Column="1" 
+                  x:Name="ItemsGridView"
+                  Visibility="Collapsed"
+                  SizeChanged="ItemsGridView_SizeChanged"                  
+                  ItemsSource="{x:Bind TaskView.SelectedGroup.taskList}"
+                  Background="{StaticResource ItemContainerBrush}"
+                  >
+
+            <!-- Grid view top header -->
+            <GridView.Header>
+
+                <Grid x:Name="MyGridViewHeader"
+                      VerticalAlignment="Stretch"
+                      Background="#105b35"
+                      Margin="0,3,3,3"
+                      BorderBrush="Black">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Rectangle Height="50"/>
+
+                    <TextBlock Text="Site"
+                               FontSize="16"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center"/>
+
+                    <TextBlock Text="Product/SKU"
+                               Grid.Column="1"
+                               FontSize="16"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center"/>
+
+                    <TextBlock Text="Status"
+                               Grid.Column="2"
+                               FontSize="16"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center"/>
+
+                </Grid>
+
+            </GridView.Header>
+
+            <!-- Grid view items -->
+            <GridView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <ItemsWrapGrid x:Name="MaxItemsWrapGrid"
+                                       MaximumRowsOrColumns="1"
+                                       Orientation="Horizontal">
+                    </ItemsWrapGrid>
+                </ItemsPanelTemplate>
+            </GridView.ItemsPanel>
+
+            <GridView.ItemContainerStyle>
+                <Style TargetType="GridViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                    <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+                    <Setter Property="VerticalAlignment" Value="Stretch"/>
+                </Style>
+            </GridView.ItemContainerStyle>
+
+            <GridView.ItemTemplate>
+                <DataTemplate x:DataType="model:Task">
+
+                    <Grid x:Name="GridPerItem">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="50"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Rectangle Grid.ColumnSpan="3"
+                                   Fill="{ThemeResource AcrylicInAppFillColorDefaultBrush}"/>
+
+                        <TextBlock Text="{x:Bind strChosenSite}"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Center"/>
+                        
+                        <TextBlock Text="{x:Bind productLink}"
+                                   Grid.Column="1"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Center"/>
+
+                        <TextBlock Text="{x:Bind Status, Mode=TwoWay}"
+                                   Foreground="{x:Bind StatusColor, Mode=TwoWay}"
+                                   Grid.Column="2"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Center"/>
+                        
+                    </Grid>
+
+                </DataTemplate>
+            </GridView.ItemTemplate>
+
+        </GridView>
+
+        <Grid x:Name="GroupActionControl"
+              Grid.Row="2"
+              Grid.Column="2"
+              
+              Background="Black"
+              Visibility="Collapsed"
+              >
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Content="Start All"
+                    x:Name="StartTaskGroupBtn"
+                    Margin="15,15,15,15"
+                    Click="StartTaskGroup_Click"
+                    IsEnabled="True"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    Style="{StaticResource AccentButtonStyle}"
+                    />
+
+            <Button Content="Stop All"
+                    x:Name="StopTaskGroupBtn"
+                    Grid.Column="1"
+                    Margin="15,15,15,15"
+                    Click="StopTaskGroup_Click"
+                    IsEnabled="False"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    Style="{StaticResource AccentButtonStyle}"
+                    />
+
+        </Grid>
+        
+        <StackPanel x:Name="EmptyTaskStack"
+                    Grid.Column="1"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Orientation="Vertical"
+                    Visibility="Visible">
+            <SymbolIcon Symbol="Add" x:Name="EmptyGroupIcon"/>
+            <TextBlock Margin="0,10,0,0" Text="Please create a task group, or select a group."/>
+        </StackPanel>
+
+        <mucx:InfoBar x:Name="InfoCommandStatus"
+                      Grid.Column="1"
+                      Severity="Success"
+                      Title="Backup Complete"
+                      Visibility="Visible"
+                      IsOpen="False"
+                      Message="Successful!">
+            <mucx:InfoBar.OpacityTransition>
+                <ScalarTransition/>
+            </mucx:InfoBar.OpacityTransition>
+        </mucx:InfoBar>
+
+
+    </Grid>
+</Page>

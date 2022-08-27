@@ -1,0 +1,70 @@
+﻿<Page
+    x:Class="Bermuda.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Bermuda"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:model="using:Bermuda.Models"
+    mc:Ignorable="d"
+    >
+
+    <Page.Resources>
+        <SolidColorBrush x:Key="BermudaTheme_RegionBrush" Color="#222831"/>
+        <SolidColorBrush x:Key="BermudaTheme_BaseBrush" Color="#393E46"/>
+        <SolidColorBrush x:Key="BermudaTheme_PrimaryBrush" Color="#00ADB5"/>
+        <LinearGradientBrush x:Key="BermudaTheme_HeaderGradient" StartPoint="0.5,0" EndPoint="0.5,1">
+            <GradientStop Color="#222831" Offset="0.0" />
+            <GradientStop Color="Black" Offset="1.0" />
+        </LinearGradientBrush>
+    </Page.Resources>
+
+    <NavigationView x:Name="MainNavigationPane"
+                    PaneDisplayMode="LeftCompact"
+                    ItemInvoked="NavView_ItemInvoked"
+                    IsPaneVisible="{x:Bind ViewModel.NavigationEnabled, Mode=TwoWay}"
+                    IsSettingsVisible="True"
+                    IsPaneOpen="False"
+                    Visibility="Visible"
+                    IsBackButtonVisible="Collapsed">
+
+        <NavigationView.PaneHeader>
+            <Image Source="Assets/logo.png"/>
+        </NavigationView.PaneHeader>
+
+        <NavigationView.MenuItems>
+            <NavigationViewItem Icon="List" Content="Task Overview"
+                                x:Name="TaskOverview"/>
+            <NavigationViewItem Icon="Remote" Content="Manage Proxies"
+                                x:Name="Proxies"/>
+            <NavigationViewItem Icon="Account" Content="Manage Profiles"
+                                x:Name="Profiles"/>
+            <NavigationViewItem Icon="Shop" Content="Checkout Overview"
+                                x:Name="Checkouts"/>
+        </NavigationView.MenuItems>
+
+        
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="8*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Rectangle Fill="{StaticResource BermudaTheme_HeaderGradient}"/>
+            <TextBlock VerticalAlignment="Center"
+                       HorizontalAlignment="Center"
+                       FontSize="24"
+                       FontFamily="Assets/Heebo.ttf#Heebo"
+                       Text="{x:Bind ViewModel.PageHeaderText, Mode=OneWay}"/>
+
+            <Frame Grid.Row="1" x:Name="contentFrame"/>
+
+        </Grid>
+        
+    </NavigationView>
+
+</Page>

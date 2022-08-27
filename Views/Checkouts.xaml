@@ -1,0 +1,71 @@
+﻿<Page
+    x:Class="Bermuda.Views.Checkouts"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Bermuda.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:model="using:Bermuda.Models"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Page.Resources>
+
+        <LinearGradientBrush x:Key="BaseBrush" StartPoint="0.5,0" EndPoint="0.5,1">
+            <GradientStop Color="#105b35" Offset="0.0" />
+            <GradientStop Color="#000000" Offset="1.0" />
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="ItemContainerBrush" StartPoint="0.5,0" EndPoint="0.5,1">
+            <GradientStop Color="#105b35" Offset="0.0" />
+            <GradientStop Color="#000000" Offset="1.0" />
+        </LinearGradientBrush>
+
+    </Page.Resources>
+
+    <Grid Background="Black">
+
+        <GridView ItemsSource="{x:Bind CheckoutView.checkouts, Mode=TwoWay}" HorizontalAlignment="Center">
+
+            <GridView.ItemTemplate>
+                <DataTemplate x:DataType="model:CheckoutModel">
+
+                    <Grid VerticalAlignment="Stretch"
+                          HorizontalAlignment="Stretch"
+                          Margin="10,10,10,10"
+                          Height="200"
+                          Width="200"
+                          Background="{StaticResource BaseBrush}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="150"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <Image Source="{Binding ProductImage}"/>
+
+                        <StackPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Profile: " Margin="0,0,5,0"/>
+                                <TextBlock Text="{Binding ProfileName}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Size: " Margin="0,0,5,0"/>
+                                <TextBlock Text="{Binding Size}"/>
+                            </StackPanel>
+                        </StackPanel>
+                        
+                    </Grid>
+                   
+                    
+                </DataTemplate>
+            </GridView.ItemTemplate>
+           
+            
+        </GridView>
+        
+    </Grid>
+    
+    
+</Page>
+
+    

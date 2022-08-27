@@ -1,0 +1,70 @@
+﻿<Page
+    x:Class="Bermuda.Views.License"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Bermuda.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Page.Resources>
+
+        <LinearGradientBrush x:Key="BaseBrush" StartPoint="0.5,0" EndPoint="0.5,1">
+            <GradientStop Color="#105b35" Offset="0.0" />
+            <GradientStop Color="#000000" Offset="1.0" />
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="ProgressBarColor" StartPoint="0.5,0" EndPoint="0.5,1">
+            <GradientStop Color="Silver" Offset="0.5" />
+            <GradientStop Color="DarkGreen" Offset="1.0" />
+        </LinearGradientBrush>
+
+    </Page.Resources>
+
+    <Grid Background="Black">
+  
+        <Grid x:Name="LicensePanel"
+              VerticalAlignment="Center"
+              HorizontalAlignment="Center"
+              Height="400"
+              Width="400"
+              CornerRadius="15,15,15,15"
+              Background="{StaticResource BaseBrush}">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+    
+            <Image Source="ms-appx:///Assets/boro_bermuda_logo.png" 
+                   Height="150" 
+                   Width="150"
+                   Margin="0,25,0,25"/>
+
+            <StackPanel x:Name="UpdatingForm" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top">
+                <TextBlock x:Name="UpdateForm_JobStatus" HorizontalAlignment="Center" Text="Updating..." Margin="3,3,3,10"/>
+                <ProgressBar x:Name="UpdateForm_DownloadProgress" CornerRadius="5,5,5,5" Foreground="Gray" Height="20" Width="300" Value="{x:Bind LicenseView.UpdateProgress, Mode=TwoWay}"/>
+                <ProgressRing x:Name="UpdateForm_BackendProgress" 
+                              Visibility="Collapsed" 
+                              IsActive="True"
+                              Foreground="White"
+                              Margin="8,8,8,8"
+                              Width="50" 
+                              Height="50"/>
+            </StackPanel>
+
+            <StackPanel x:Name="LicenseForm" Visibility="Collapsed" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" MinWidth="350">
+                <TextBox x:Name="TxtLicenseKey" PlaceholderText="License Key: XXXX-XXXX-XXXX-XXXX" TextAlignment="Center" FontSize="20"/>
+                <Button x:Name="LicenseBindBtn"
+                        Click="LicenseBindBtn_Click"
+                        Content="Register"
+                        Margin="0,10,0,0"
+                        HorizontalAlignment="Stretch"
+                        FontSize="20"/>
+            </StackPanel>
+
+        </Grid>
+     
+    </Grid>
+</Page>

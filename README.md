@@ -7,7 +7,7 @@
 <div align="center">
   <h3 align="center">C#, UWP, and WinUI Desktop Application</h3>
   <p align="center">
-    Building a responsive and functional UI for automating bulk-orders of highly demanded retail products (Clothing, Shoes, Sports Goods) on Windows.
+    Building a responsive and functional UI for automating bulk-orders of highly requested retail products (Clothing, Shoes, Sports Goods) on Windows.
     <br />
   </p>
 </div>
